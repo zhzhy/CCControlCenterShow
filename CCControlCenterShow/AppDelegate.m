@@ -7,12 +7,21 @@
 //
 
 #import "AppDelegate.h"
+#import "CCWindow.h"
 
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate
+
+- (UIWindow *)window {
+    if (_window == nil) {
+        _window = [[CCWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    }
+    
+    return _window;
+}
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

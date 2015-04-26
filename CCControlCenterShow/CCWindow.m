@@ -15,7 +15,8 @@ NSString * const CCWindowControlCenterDidHideNotification = @"CCWindowControlCen
 
 @interface CCWindow ()
 
-@property (nonatomic) BOOL isControlCenterShow;
+@property (nonatomic) BOOL isTouchMovingFromBottom;
+@property (nonatomic) BOOL shouldControlCenterShow;
 
 @end
 
@@ -33,6 +34,7 @@ NSString * const CCWindowControlCenterDidHideNotification = @"CCWindowControlCen
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -45,23 +47,66 @@ NSString * const CCWindowControlCenterDidHideNotification = @"CCWindowControlCen
     return self;
 }
 
+- (BOOL)isTouchBeginingFromBottom:(UITouch *)touch {
+    CGPoint beginPoint = [touch locationInView:self];
+    if (self.bounds.size.height - beginPoint.y < self.bounds.size.height * 0.95f) {
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (BOOL)isTouchMovingOutBottom:(UITouch *)touch {
+    CGPoint movingPoint = [touch locationInView:self];
+    if (self.bounds.size.height - movingPoint.y >= 40) {
+        return YES;
+    }
+    
+    return NO;
+}
+
 - (void)sendEvent:(UIEvent *)event {
     [super sendEvent:event];
     if (event.type == UIEventTypeTouches) {
         UITouch *touch = [[event allTouches] anyObject];
         NSLog(@"%d:%f", touch.phase, [touch locationInView:self].y);
+        if (touch.phase == UITouchPhaseBegan &&
+            [self isTouchBeginingFromBottom:touch]) {
+            self.isTouchMovingFromBottom = YES;
+        } else if (touch.phase != UITouchPhaseBegan &&
+                   self.isTouchMovingFromBottom  &&
+                   [self isTouchMovingOutBottom:touch]) {
+            self.isTouchMovingFromBottom = NO;
+            self.shouldControlCenterShow = YES;
+        }
     }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    if (self.isControlCenterShow) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:CCWindowControlCenterDidShowNotification object:nil];
-        self.isControlCenterShow = NO;
-    }
+    self.isTouchMovingFromBottom = NO;
+    self.shouldControlCenterShow = NO;
+    [[NSNotificationCenter defaultCenter] postNotificationName:CCWindowControlCenterDidHideNotification object:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     NSLog(@"resign");
+    if (self.shouldControlCenterShow) {
+        self.shouldControlCenterShow = NO;
+        [self postControlCenterShowNotification];
+    } else if (self.isTouchMovingFromBottom) {
+        [self performSelector:@selector(touchesMovedSlowly) withObject:nil afterDelay:1.0f];
+    }
+}
+
+- (void)touchesMovedSlowly {
+    if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
+        [self postControlCenterShowNotification];
+    }
+}
+
+- (void)postControlCenterShowNotification {
+    NSLog(@"send");
+    [[NSNotificationCenter defaultCenter] postNotificationName:CCWindowControlCenterDidShowNotification object:nil];
 }
 
 @end
