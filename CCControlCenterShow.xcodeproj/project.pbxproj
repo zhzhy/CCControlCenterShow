@@ -14,6 +14,7 @@
 		1F5EC7B81AEC6E8800535B89 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F5EC7B71AEC6E8800535B89 /* Images.xcassets */; };
 		1F5EC7BB1AEC6E8800535B89 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F5EC7B91AEC6E8800535B89 /* LaunchScreen.xib */; };
 		1F5EC7C71AEC6E8800535B89 /* CCControlCenterShowTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5EC7C61AEC6E8800535B89 /* CCControlCenterShowTests.m */; };
+		1F5EC7D51AEC7AC900535B89 /* CCWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5EC7D41AEC7AC900535B89 /* CCWindow.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,8 @@
 		1F5EC7C01AEC6E8800535B89 /* CCControlCenterShowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCControlCenterShowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F5EC7C51AEC6E8800535B89 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F5EC7C61AEC6E8800535B89 /* CCControlCenterShowTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CCControlCenterShowTests.m; sourceTree = "<group>"; };
+		1F5EC7D31AEC7AC900535B89 /* CCWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCWindow.h; sourceTree = "<group>"; };
+		1F5EC7D41AEC7AC900535B89 /* CCWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCWindow.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +84,8 @@
 		1F5EC7A91AEC6E8700535B89 /* CCControlCenterShow */ = {
 			isa = PBXGroup;
 			children = (
+				1F5EC7D31AEC7AC900535B89 /* CCWindow.h */,
+				1F5EC7D41AEC7AC900535B89 /* CCWindow.m */,
 				1F5EC7AE1AEC6E8800535B89 /* AppDelegate.h */,
 				1F5EC7AF1AEC6E8800535B89 /* AppDelegate.m */,
 				1F5EC7B11AEC6E8800535B89 /* ViewController.h */,
@@ -222,6 +227,7 @@
 				1F5EC7B31AEC6E8800535B89 /* ViewController.m in Sources */,
 				1F5EC7B01AEC6E8800535B89 /* AppDelegate.m in Sources */,
 				1F5EC7AD1AEC6E8800535B89 /* main.m in Sources */,
+				1F5EC7D51AEC7AC900535B89 /* CCWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
